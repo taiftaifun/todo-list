@@ -1,3 +1,7 @@
 #new-project-form {
     display: none;
 }
+
+li {
+    list-style-type: none;
+}
