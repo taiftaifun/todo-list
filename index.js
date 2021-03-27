@@ -1,4 +1,4 @@
-const projects = [];
+let projects = [];
 
 const DOM = (() => {
     const projectsDiv = document.querySelector("#projects");
@@ -14,6 +14,7 @@ const DOM = (() => {
     
     function showProjectWizard() {
             projectWizard.style.display = "block";
+            projectNameInput.focus();
         }
 
     function hideProjectWizard() {
@@ -21,6 +22,7 @@ const DOM = (() => {
         projectNameInput.value = "";
     }
 
+    // allow the user to add new project by hitting 'enter'
     function enterAdd(e) {
         if(e.keyCode === 13) {
             e.preventDefault();
@@ -29,32 +31,42 @@ const DOM = (() => {
     }
 
     function addProject() {
-        if(projectNameInput.value.trim() != "") {
-            console.log(projectNameInput.value);
-            let newProject = Project(projectNameInput.value);
+        projectName = projectNameInput.value.trim();
+        if(projectName != "") {
+            projectId = projectName.replace(/\s+/g, "-");
+            let newProject = Project(projectNameInput.value, projectId);
             projects.push(newProject);
             hideProjectWizard();
             renderProject(newProject);
-            console.log(projects);
         }
     }
 
     function removeProject(e) {
-        //
+        projectId = e.target.parentNode.id
+        projects = projects.filter(project => project.id != projectId);
+        e.target.parentNode.remove();
     }
 
     function renderProject(project) {
         let projectLi = document.createElement("li");
         projectLi.className = "project";
-        projectLi.id = project.name;
-        projectLi.textContent = project.name;
+        projectLi.id = project.id;
+        let projectNameField = document.createElement("p");
+        projectNameField.className = "project-name-field";
+        projectNameField.textContent = project.name;
+        let deleteProjectBtn = document.createElement("button");
+        deleteProjectBtn.className = "delete-project-btn";
+        deleteProjectBtn.textContent = "x";
+        projectLi.appendChild(projectNameField);
+        projectLi.appendChild(deleteProjectBtn);
+        deleteProjectBtn.addEventListener("click", removeProject);
         projectsDiv.appendChild(projectLi);
         }
 })();
 
-const Project = (name) => {
+const Project = (name, id) => {
     let tasks = [];
-    return {name, tasks};
+    return {name, id, tasks};
     }
 
-let defaultProject = Project("Your First");
+//let defaultProject = Project("Your First");

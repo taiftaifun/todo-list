@@ -3,17 +3,24 @@
     <link href="index.css" rel="stylesheet">
 </head>
 <body>
-    <h1>TO DO LIST</h1>
-    <h2>PROJECTS</h2>
-    <ul id="projects">
-    </ul>
-    <button id="new-project-btn">NEW PROJECT</button>
-    <form id="new-project-form">
-        <input id="project-name-input" placeholder="Project name" onkeydown="return(event.keyCode!=13);"/>
-        <div id="new-project-btns">
-            <button type="button" id="add-project-btn">ADD</button>
-            <button type="button" id="cancel-project-btn">CANCEL</button>
+    <h1 id="title-header">TO DO LIST</h1>
+    <div id="tasks-and-projects-wrapper">
+        <div id="projects-container">
+            <h2>PROJECTS</h2>
+            <ul id="projects">
+            </ul>
+            <button id="new-project-btn">NEW PROJECT</button>
+            <form id="new-project-form">
+                <input id="project-name-input" placeholder="Project name" onkeydown="return(event.keyCode!=13);"/>
+                <div id="new-project-btns">
+                    <button type="button" id="add-project-btn">ADD</button>
+                    <button type="button" id="cancel-project-btn">CANCEL</button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div id="tasks-container">
+            <h2>TASKS</h2>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
