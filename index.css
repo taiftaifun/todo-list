@@ -32,6 +32,10 @@ h1, h2 {
     display: none;
 }
 
+#new-task-form {
+    display: none;
+}
+
 .project {
     list-style-type: none;
     display: flex;

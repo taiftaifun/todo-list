@@ -1,16 +1,30 @@
 let projects = [];
 
 const DOM = (() => {
+    // project mgmt pane
     const projectsDiv = document.querySelector("#projects");
     const newProjectBtn = document.querySelector("#new-project-btn");
     const projectWizard = document.querySelector("#new-project-form");
     const projectWizardCancelBtn = document.querySelector("#cancel-project-btn");
     const projectNameInput = document.querySelector("#project-name-input");
-    projectNameInput.addEventListener("keyup", enterAdd)
+    projectNameInput.addEventListener("keyup", enterAddProject)
     const projectWizardAddBtn = document.querySelector("#add-project-btn");
     newProjectBtn.addEventListener("click", showProjectWizard);
     projectWizardCancelBtn.addEventListener("click", hideProjectWizard);
     projectWizardAddBtn.addEventListener("click", addProject);
+
+    // task mgmt pane
+    const tasksDiv = document.querySelector("#tasks");
+    const newTaskBtn = document.querySelector("#new-task-btn");
+    const taskWizard = document.querySelector("#new-task-form");
+    const taskWizardCancelBtn = document.querySelector("#cancel-task-btn");
+    const taskNameInput = document.querySelector("#task-name-input");
+    taskNameInput.addEventListener("keyup", enterAddTask)
+    const taskWizardAddBtn = document.querySelector("#add-project-btn");
+    newTaskBtn.addEventListener("click", showTaskWizard);
+    taskWizardCancelBtn.addEventListener("click", hideTaskWizard);
+    taskWizardAddBtn.addEventListener("click", addTask);
+
     
     function showProjectWizard() {
             projectWizard.style.display = "block";
@@ -23,7 +37,7 @@ const DOM = (() => {
     }
 
     // allow the user to add new project by hitting 'enter'
-    function enterAdd(e) {
+    function enterAddProject(e) {
         if(e.keyCode === 13) {
             e.preventDefault();
             projectWizardAddBtn.click();
@@ -62,6 +76,37 @@ const DOM = (() => {
         deleteProjectBtn.addEventListener("click", removeProject);
         projectsDiv.appendChild(projectLi);
         }
+
+        function enterAddTask(e) {
+            if(e.keyCode === 13) {
+                e.preventDefault();
+                taskWizardAddBtn.click();
+            }
+        }
+
+        function showTaskWizard() {
+            taskWizard.style.display = "block";
+            taskNameInput.focus();
+        }
+
+        function hideTaskWizard() {
+            taskWizard.style.display = "none";
+            taskNameInput.value = "";
+        }
+
+        function addTask() {
+            taskName = taskNameInput.value.trim();
+            if(taskName != "") {
+                taskId = taskName.replace(/\s+/g, "-").toLowerCase();
+                let newTask= Project(taskNameInput.value, taskId);
+                projects.push(newProject);
+                hideProjectWizard();
+                renderProject(newProject);
+            }
+        }
+
+    return {renderProject}
+
 })();
 
 const Project = (name, id) => {
@@ -69,4 +114,10 @@ const Project = (name, id) => {
     return {name, id, tasks};
     }
 
-//let defaultProject = Project("Your First");
+const Task = (name, id, description, dueDate) => {
+    return {name, id, description, dueDate}
+}    
+
+let defaultProject = Project("Your First Project", "your-first-project");
+projects.push(defaultProject);
+DOM.renderProject(projects[0]);
